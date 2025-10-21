@@ -4,6 +4,7 @@ main\java\catalog\InMemoryCatalog.class
 main\java\order\Money.class
 main\java\order\OrderIds.class
 main\java\payment\CashPayment.class
+main\java\smells\OrderManagerGod.class
 main\java\factory\ProductFactory.class
 main\java\payment\WalletPayment.class
 main\java\payment\CardPayment.class
@@ -14,12 +15,12 @@ main\java\order\OrderObserver.class
 main\java\order\KitchenDisplay.class
 main\java\order\DeliveryDesk.class
 main\java\decorators\ExtraShot.class
+main\java\demo\Week5Demo.class
 main\java\order\Order.class
 main\java\decorators\OatMilk.class
 main\java\catalog\Product.class
 main\java\decorators\Syrup.class
 main\java\payment\PaymentStrategy.class
 main\java\order\OrderPublisher.class
-main\java\demo\Week4Demo.class
 main\java\order\LineItem.class
 main\java\catalog\SimpleProduct.class

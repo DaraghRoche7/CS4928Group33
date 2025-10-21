@@ -19,7 +19,7 @@ public final class Money implements Comparable<Money> {
     }
     
     public Money changeFrom(Money cashGiven) {
-        return cashGiven.subtract(this);
+        return cashGiven.subtract(this); 
     }
     
     public static Money zero() {
@@ -28,6 +28,10 @@ public final class Money implements Comparable<Money> {
 
     public static Money of(double value) {
         return new Money(BigDecimal.valueOf(value));
+    }
+    
+    public static Money of(BigDecimal value) {
+        return new Money(value);
     }
 
     public Money add(Money other) {
@@ -59,6 +63,19 @@ public final class Money implements Comparable<Money> {
     public String toString() {
         return "$" + amount.toPlainString();
     }
+    
+    public static BigDecimal toBigDecimal(Object value) {
+        if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        } else if (value instanceof Number) {
+            return BigDecimal.valueOf(((Number) value).doubleValue());
+        } else if (value instanceof String) {
+            return new BigDecimal((String) value);
+        } else {
+            throw new IllegalArgumentException("Cannot convert to BigDecimal: " + value);
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {

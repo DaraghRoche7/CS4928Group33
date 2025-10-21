@@ -1,6 +1,7 @@
 main\java\decorators\SizeLarge.class
 main\java\catalog\Catalog.class
 main\java\catalog\InMemoryCatalog.class
+main\java\demo\Week6Demo.class
 main\java\pricing\ReceiptPrinter.class
 main\java\order\Money.class
 main\java\order\OrderIds.class

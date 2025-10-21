@@ -13,8 +13,6 @@ import main.java.pricing.FixedRateTaxPolicy;
 
 public class OrderManagerGod {
 
-    public static int TAX_PERCENT = 10;
-    public static String LAST_DISCOUNT_CODE = null;
 
     // --- Main process method ---
     public static String process(String recipe, int qty, String paymentType, String discountCode, boolean printReceipt) {
@@ -33,15 +31,17 @@ public class OrderManagerGod {
         Money discounted = subtotal.subtract(discount);
         if (discounted.asBigDecimal().signum() < 0) discounted = Money.zero();
 
-        // Calculate tax using TaxPolicy
-        TaxPolicy taxPolicy = new FixedRateTaxPolicy(TAX_PERCENT);
+        // Calculate tax using TaxPolicy (configured locally)
+        int defaultTaxPercent = 10;
+        TaxPolicy taxPolicy = new FixedRateTaxPolicy(defaultTaxPercent);
         Money tax = taxPolicy.taxOn(discounted);
         Money total = discounted.add(tax);
 
         // Build receipt using ReceiptPrinter
         ReceiptPrinter printer = new ReceiptPrinter();
         PricingService.PricingResult pr = new PricingService.PricingResult(subtotal, discount, tax, total);
-        String receipt = printer.format(recipe, qty, pr, TAX_PERCENT);
+        int printedTaxPercent = (taxPolicy instanceof FixedRateTaxPolicy fr) ? fr.getPercent() : 0;
+        String receipt = printer.format(recipe, qty, pr, printedTaxPercent);
         
         if (printReceipt) {
             printer.print(receipt);
@@ -58,8 +58,6 @@ public class OrderManagerGod {
 
     private static Money calculateDiscount(Money subtotal, String discountCode) {
         if (discountCode == null) return Money.zero();
-        
-        LAST_DISCOUNT_CODE = discountCode;
         
         if (discountCode.equalsIgnoreCase("LOYAL5")) {
             return Money.of(subtotal.asBigDecimal()

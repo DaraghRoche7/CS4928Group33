@@ -10,7 +10,7 @@ class OrderManagerGodTests {
 
     @BeforeEach
     void resetDiscountCode() {
-        OrderManagerGod.LAST_DISCOUNT_CODE = null;
+        // no global state to reset anymore
     }
 
     @Test
@@ -30,28 +30,24 @@ class OrderManagerGodTests {
     @Test
     void process_withLoyal5Discount_appliesPercentageDiscount() {
         String receipt = OrderManagerGod.process("CAP", 2, null, "LOYAL5", false);
-        assertEquals("LOYAL5", OrderManagerGod.LAST_DISCOUNT_CODE);
         assertTrue(receipt.contains("Discount: -"));
     }
 
     @Test
     void process_withCoupon1Discount_appliesFixedDiscount() {
         String receipt = OrderManagerGod.process("LAT", 1, null, "COUPON1", false);
-        assertEquals("COUPON1", OrderManagerGod.LAST_DISCOUNT_CODE);
         assertTrue(receipt.contains("Discount: -"));
     }
 
     @Test
     void process_withUnknownDiscount_appliesNoDiscount() {
         String receipt = OrderManagerGod.process("ESP", 1, null, "RANDOMCODE", false);
-        assertEquals("RANDOMCODE", OrderManagerGod.LAST_DISCOUNT_CODE);
         assertFalse(receipt.contains("Discount: -"));
     }
 
     @Test
     void process_withNoneDiscount_appliesNoDiscount() {
         String receipt = OrderManagerGod.process("LAT", 1, null, "NONE", false);
-        assertEquals("NONE", OrderManagerGod.LAST_DISCOUNT_CODE);
         assertFalse(receipt.contains("Discount: -"));
     }
 

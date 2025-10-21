@@ -26,7 +26,7 @@ public class OrderManagerGod {
         Money discount = Money.zero();
 
         if (discountCode != null) {
-            if (discountCode.equalsIgnoreCase("LOYAL5")) {
+            if (discountCode.equalsIgnoreCase("LOYAL5")) { 
                 discount = Money.of(subtotal.asBigDecimal()
                     .multiply(java.math.BigDecimal.valueOf(5))
                     .divide(java.math.BigDecimal.valueOf(100)));

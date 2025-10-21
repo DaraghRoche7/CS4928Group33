@@ -19,7 +19,7 @@ public final class Money implements Comparable<Money> {
     }
     
     public Money changeFrom(Money cashGiven) {
-        return cashGiven.subtract(this);
+        return cashGiven.subtract(this); 
     }
     
     public static Money zero() {

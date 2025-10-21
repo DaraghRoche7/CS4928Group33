@@ -47,8 +47,9 @@ public class OrderManagerGod {
             printer.print(receipt);
         }
 
-        // Execute payment using PaymentStrategy
-        PaymentStrategy paymentStrategy = createPaymentStrategy(paymentType);
+        // Execute payment using PaymentStrategy (via factory)
+        PaymentStrategyFactory paymentFactory = new DefaultPaymentStrategyFactory();
+        PaymentStrategy paymentStrategy = paymentFactory.fromType(paymentType);
         Order order = new Order(qty);
         paymentStrategy.pay(order);
 
@@ -73,14 +74,9 @@ public class OrderManagerGod {
         }
     }
 
+    // Old factory method retained for backward compatibility if needed elsewhere
     private static PaymentStrategy createPaymentStrategy(String paymentType) {
-        if (paymentType == null) return new CashPayment();
-        
-        return switch (paymentType.toUpperCase()) {
-            case "CASH" -> new CashPayment();
-            case "CARD" -> new CardPayment(paymentType);
-            case "WALLET" -> new WalletPayment(paymentType);
-            default -> new CashPayment(); // fallback
-        };
+        PaymentStrategyFactory paymentFactory = new DefaultPaymentStrategyFactory();
+        return paymentFactory.fromType(paymentType);
     }
 }

@@ -21,5 +21,9 @@ public final class PricingService {
         return new PricingResult(subtotal, discount, tax, total);
     }
 
+    public TaxPolicy getTaxPolicy() {
+        return taxPolicy;
+    }
+
     public static record PricingResult(Money subtotal, Money discount, Money tax, Money total) {}
 }

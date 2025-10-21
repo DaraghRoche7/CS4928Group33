@@ -36,8 +36,12 @@ public final class CheckoutService {
         Money discounted = subtotal.subtract(discount);
         if (discounted.asBigDecimal().signum() < 0) discounted = Money.zero();
         
-        // Use PricingService for tax calculation
-        var result = pricing.price(discounted);
+        // Calculate tax on discounted amount
+        Money tax = pricing.getTaxPolicy().taxOn(discounted);
+        Money total = discounted.add(tax);
+        
+        // Create result with manually calculated discount
+        var result = new PricingService.PricingResult(subtotal, discount, tax, total);
         
         String receipt = printer.format(recipe, qty, result, taxPercent);
         

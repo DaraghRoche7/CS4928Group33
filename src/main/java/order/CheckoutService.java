@@ -62,7 +62,7 @@ public final class CheckoutService {
                 .multiply(java.math.BigDecimal.valueOf(5))
                 .divide(java.math.BigDecimal.valueOf(100)));
         } else if (discountCode.equalsIgnoreCase("COUPON1")) {
-            return Money.of(1.00);
+            return Money.of(java.math.BigDecimal.valueOf(1.0));
         } else if (discountCode.equalsIgnoreCase("NONE")) {
             return Money.zero();
         } else {

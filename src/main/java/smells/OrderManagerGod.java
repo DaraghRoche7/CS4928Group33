@@ -1,6 +1,8 @@
 package main.java.smells;
 
 import main.java.order.Money;
+import main.java.order.Order;
+import main.java.payment.*;
 import main.java.factory.ProductFactory;
 import main.java.catalog.Product;
 
@@ -46,34 +48,37 @@ public class OrderManagerGod {
         var tax = Money.of(discounted.asBigDecimal()
             .multiply(java.math.BigDecimal.valueOf(TAX_PERCENT))
             .divide(java.math.BigDecimal.valueOf(100)));
-
+    
         var total = discounted.add(tax);
-
-        if (paymentType != null) {
-            if (paymentType.equalsIgnoreCase("CASH")) {
-                System.out.println("[Cash] Customer paid " + total + " EUR");
-            } else if (paymentType.equalsIgnoreCase("CARD")) {
-                System.out.println("[Card] Customer paid " + total + " EUR with card ****1234");
-            } else if (paymentType.equalsIgnoreCase("WALLET")) {
-                System.out.println("[Wallet] Customer paid " + total + " EUR via wallet user-wallet-789");
-            } else {
-                System.out.println("[UnknownPayment] " + total);
-            }
-        }
-        StringBuilder receipt = new StringBuilder();
-        	receipt.append("Order (").append(recipe).append(") x").append(qty).append("\n");
-        	receipt.append("Subtotal: ").append(subtotal).append("\n");
-        if (discount.asBigDecimal().signum() > 0) {
-        	receipt.append("Discount: -").append(discount).append("\n");
-        }
-        receipt.append("Tax (").append(TAX_PERCENT).append("%):        ").append(tax).append("\n");
-        receipt.append("Total: ").append(total);
-        String out = receipt.toString();
-        if (printReceipt) {
-        System.out.println(out);
-        }
-        return out;
-
-        //return total.toString();
+        PaymentStrategy payment = new CashPayment(); 
+        return processPayment(recipe, qty, subtotal, discount, tax, total, payment, printReceipt);
     }
-}
+    	public static String processPayment(String recipe, int qty, Money subtotal, Money discount,
+            Money tax, Money total, PaymentStrategy paymentStrategy,
+            boolean printReceipt) {
+
+		// --- Build receipt ---
+		StringBuilder receipt = new StringBuilder();
+		receipt.append("Order (").append(recipe).append(") x").append(qty).append("\n");
+		receipt.append("Subtotal: ").append(String.format("%.2f", subtotal.asBigDecimal())).append("\n");
+		
+		if (discount.asBigDecimal().signum() > 0) {
+			receipt.append("Discount: -").append(String.format("%.2f", discount.asBigDecimal())).append("\n");
+		}
+		
+		receipt.append("Tax (").append(TAX_PERCENT).append("%): ").append(String.format("%.2f", tax.asBigDecimal())).append("\n");
+		receipt.append("Total: ").append(String.format("%.2f", total.asBigDecimal()));
+		
+		String out = receipt.toString();
+    	
+		if (printReceipt) {
+			System.out.println(out);
+		}
+		
+		// --- Execute payment ---
+		Order orderForPayment = new Order(qty);
+		paymentStrategy.pay(orderForPayment);
+		
+		return out;
+		}
+    }

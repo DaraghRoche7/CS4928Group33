@@ -60,7 +60,20 @@ public class OrderManagerGod {
                 System.out.println("[UnknownPayment] " + total);
             }
         }
+        StringBuilder receipt = new StringBuilder();
+        	receipt.append("Order (").append(recipe).append(") x").append(qty).append("\n");
+        	receipt.append("Subtotal: ").append(subtotal).append("\n");
+        if (discount.asBigDecimal().signum() > 0) {
+        	receipt.append("Discount: -").append(discount).append("\n");
+        }
+        receipt.append("Tax (").append(TAX_PERCENT).append("%):        ").append(tax).append("\n");
+        receipt.append("Total: ").append(total);
+        String out = receipt.toString();
+        if (printReceipt) {
+        System.out.println(out);
+        }
+        return out;
 
-        return total.toString();
+        //return total.toString();
     }
 }

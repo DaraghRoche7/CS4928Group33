@@ -61,7 +61,7 @@ public final class Money implements Comparable<Money> {
 
     @Override
     public String toString() {
-        return "€" + amount.toPlainString();
+        return "$" + amount.toPlainString();
     }
     
     public static BigDecimal toBigDecimal(Object value) {

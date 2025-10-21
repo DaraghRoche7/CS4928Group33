@@ -1,6 +1,7 @@
 test\java\PosTests.class
-test\java\Week04Tests.class
-test\java\DecoratorTests.class
 test\java\FactoryTests.class
 test\java\FakePaymentStrategy.class
+test\java\OrderManagerGodTests.class
 test\java\PaymentTests.class
+test\java\Week04Tests.class
+test\java\DecoratorTests.class

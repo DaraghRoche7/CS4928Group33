@@ -71,4 +71,67 @@ class OrderManagerGodTests {
         String receipt = OrderManagerGod.process("ESP", 1, null, "COUPON1", false);
         assertFalse(receipt.contains("Total: -")); // total cannot be negative
     }
+
+    @Test
+    void cardPayment_accepts16Digits_andPrintsMaskedLastFour() {
+        // Arrange
+        String digits = "1234567890123456";
+        var card = new main.java.payment.CardPayment(digits);
+        var order = new main.java.order.Order(1);
+
+        // Capture stdout
+        java.io.PrintStream original = System.out;
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(baos));
+        try {
+            card.pay(order);
+        } finally {
+            System.setOut(original);
+        }
+        String out = baos.toString();
+        assertTrue(out.contains("****3456"));
+    }
+
+    @Test
+    void cash_changeCalculation_usesMoneyChangeFrom() {
+        main.java.order.Money total = main.java.order.Money.of(8.15);
+        main.java.order.Money cash = main.java.order.Money.of(10.00);
+        main.java.order.Money change = total.changeFrom(cash);
+        assertEquals(main.java.order.Money.of(1.85), change);
+    }
+
+    @Test
+    void cardPayment_rejectsNullCardNumber() {
+        assertThrows(IllegalArgumentException.class, () -> new main.java.payment.CardPayment(null));
+    }
+
+    @Test
+    void cardPayment_rejectsTooShortCardNumber() {
+        assertThrows(IllegalArgumentException.class, () -> new main.java.payment.CardPayment("123"));
+    }
+
+    // --- New tests added in Week 6 ---
+    @Test
+    void processWithTax_usesProvidedTaxPercent() {
+        // ESP ($2.50) x2 => $5.00, tax 13% => $0.65
+        String receipt = OrderManagerGod.processWithTax("ESP", 2, "CASH", null, 13, false);
+        assertTrue(receipt.contains("Tax (13%): $0.65"));
+        assertTrue(receipt.contains("Total: $5.65"));
+    }
+
+    @Test
+    void process_couponBangAlias_appliesFixedDiscount() {
+        // COUPON! should behave like COUPON1 with $1.00 off
+        String receipt = OrderManagerGod.process("LAT", 2, "CASH", "COUPON!", false);
+        assertTrue(receipt.contains("Discount: -$1.00"));
+    }
+
+    @Test
+    void process_loyal5_showsExpectedDiscountAmount() {
+        // ESP ($2.50) x2 => $5.00, LOYAL5 => $0.25 off
+        String receipt = OrderManagerGod.process("ESP", 2, "CASH", "LOYAL5", false);
+        assertTrue(receipt.contains("Discount: -$0.25"));
+    }
 }
+
+

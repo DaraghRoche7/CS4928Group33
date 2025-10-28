@@ -65,8 +65,8 @@ public final class CheckoutService {
             return Money.of(subtotal.asBigDecimal()
                 .multiply(java.math.BigDecimal.valueOf(5))
                 .divide(java.math.BigDecimal.valueOf(100)));
-        } else if (discountCode.equalsIgnoreCase("COUPON1")) {
-            return Money.of(1.00);
+        } else if (discountCode.equalsIgnoreCase("COUPON1") || discountCode.equalsIgnoreCase("COUPON!")) {
+            return Money.of(java.math.BigDecimal.valueOf(1.0));
         } else if (discountCode.equalsIgnoreCase("NONE")) {
             return Money.zero();
         } else {

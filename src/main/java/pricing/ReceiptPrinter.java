@@ -18,3 +18,5 @@ public final class ReceiptPrinter {
         System.out.println(receipt);
     }
 }
+
+

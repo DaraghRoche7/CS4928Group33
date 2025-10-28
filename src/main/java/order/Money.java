@@ -93,4 +93,3 @@ public final class Money implements Comparable<Money> {
         return new Money(amount.negate());
     }
 }
-

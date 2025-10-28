@@ -1,7 +1,0 @@
--How does the Observer pattern improve decoupling in the Café POS system?
-    Now the Order class does not have to know about the different observer classes.
-    so if we want to add new observers it's easier.
-- Why is it beneficial that new observers can be added without modifying the Order class?
-    More flexibility and it is easier to add or manipulate observers in the future
--Can you think of a real-world system (outside cafés) where Observer is used (e.g., push notifications, GUIs)
-	When any button on a gui is clicked then it's the subject, event listeners on the button are observers, when the buttons clicked listeners get told.

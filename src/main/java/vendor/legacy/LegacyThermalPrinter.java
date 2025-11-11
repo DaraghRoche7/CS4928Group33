@@ -19,4 +19,3 @@ public final class LegacyThermalPrinter {
         System.out.println("[Legacy Printer] Printing " + payload.length + " bytes");
     }
 }
-

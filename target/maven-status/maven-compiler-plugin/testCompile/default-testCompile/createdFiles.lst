@@ -1,7 +1,3 @@
-test\java\PosTests.class
-test\java\FactoryTests.class
-test\java\FakePaymentStrategy.class
-test\java\OrderManagerGodTests.class
-test\java\PaymentTests.class
-test\java\Week04Tests.class
-test\java\DecoratorTests.class
+main\java\com\cafepos\MenuTests.class
+main\java\com\cafepos\StateTests.class
+main\java\com\cafepos\IntegrationTests.class

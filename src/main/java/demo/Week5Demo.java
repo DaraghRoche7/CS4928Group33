@@ -1,8 +1,9 @@
 package main.java.demo;
 
-import main.java.factory.ProductFactory;
-import main.java.catalog.Product;
-import main.java.order.*;
+import main.java.com.cafepos.factory.ProductFactory;
+import main.java.com.cafepos.catalog.Product;
+import main.java.com.cafepos.order.*;
+import main.java.com.cafepos.common.Money;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

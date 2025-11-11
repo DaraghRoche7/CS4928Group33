@@ -1,11 +1,11 @@
 package main.java.demo;
 
 import java.util.Scanner;
-import main.java.smells.OrderManagerGod;
-import main.java.factory.ProductFactory;
-import main.java.pricing.*;
-import main.java.payment.*;
-import main.java.order.CheckoutService;
+import main.java.com.cafepos.smells.OrderManagerGod;
+import main.java.com.cafepos.factory.ProductFactory;
+import main.java.com.cafepos.checkout.*;
+import main.java.com.cafepos.payment.*;
+import main.java.com.cafepos.order.CheckoutService;
 
 public final class Week6Demo {
     public static void main(String[] args) {
